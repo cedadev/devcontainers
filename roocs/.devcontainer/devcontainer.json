@@ -4,10 +4,11 @@
     "name": "Anaconda (Python 3)",
     "build": {
         "context": "..",
-        "dockerfile": "Dockerfile"
+        "dockerfile": "../Dockerfile"
     },
     "remoteUser": "roocsdev",
     "containerUser": "roocsdev",
     "updateRemoteUserUID": false,
+    "workspaceFolder": "/workspaces"
     // "postAttachCommand": "/bin/bash -login"
 }
