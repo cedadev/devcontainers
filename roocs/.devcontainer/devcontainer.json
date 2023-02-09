@@ -9,5 +9,25 @@
     "remoteUser": "roocsdev",
     "containerUser": "roocsdev",
     "updateRemoteUserUID": false,
-    // "postAttachCommand": "/bin/bash -login"
+
+    // bind mount the folder from the host into /workspaces/.vscode_mount -- see comments
+    // near the end of the Dockerfile about this
+    "workspaceMount": "source=${localWorkspaceFolder}/,target=/workspaces/.vscode_mount,type=bind,consistency=cached",
+
+    // Start attached shells in the directory /workspaces
+    // (otherwise uses the workspaceMount directory that we are not actually interested in using).
+    // This is chosen to match the $roocs_dir value used in the Dockerfile, as probably the most
+    // useful place to start when developing.  Similar could be achieved by using
+    //
+    //     "postAttachCommand": "/bin/bash -login"
+    //
+    // because then the ~/.bash_profile file would be read because it's a login shell, and there is code
+    // in the Dockerfile to add "cd $roocs_dir" to the .bash_profile.  However, by setting the directory
+    // explicitly here, this avoids the need to use a postAttachCommand -- bash will run without the
+    // -login argument but in the correct directory.
+    "workspaceFolder": "/workspaces"
 }
+
+
+
+ docker run -t -i --mount type=bind,src=/data,dst=/data busybox sh

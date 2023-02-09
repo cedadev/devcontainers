@@ -181,14 +181,15 @@ RUN chown -R $dev_user:$dev_group $roocs_dir $dev_user_homedir
 # RUN chown -R $dev_user:$dev_group $conda_dir
 
 
-# For sake of devcontainers, add a command to the .bashrc to move out of the
-# automatically mapped directory /workspaces/roocs that we want to ignore.
-# This directory will be created with the wrong permissions because of the
-# updateRemoteUserUID=false setting, because the priority is to ensure that the
-# repositories which we cloned elsewhere have the correct permissions, so we 
-# just won't use this directory.
+# For when running with devcontainers, create a directory to be used for the bind mount.
+# The name of this should match what is used in the "target" part of the "workspaceMount"
+# option in .devcontainer/devcontainer.json in this repo.  This directory will be created
+# with the wrong permissions because of the updateRemoteUserUID=false setting, because the
+# priority is to ensure that the repositories which we cloned elsewhere have the correct
+# permissions, so the directory will probably not be used, so we make it a dot directory
+# to hide it a bit.  (I've not found an obvious way to suppress the mount entirely.)
 
-RUN echo "if [ \"\$TERM_PROGRAM\" = vscode -a \"\$(pwd)\" = /workspaces/roocs ] ; then cd $roocs_dir ; fi" >> $dev_user_homedir/.bashrc
+RUN mkdir /workspaces/.vscode_mount
 
 ENV auto_start=$auto_start
 ENV dev_user=$dev_user
