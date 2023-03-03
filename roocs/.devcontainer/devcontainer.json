@@ -27,7 +27,3 @@
     // -login argument but in the correct directory.
     "workspaceFolder": "/workspaces"
 }
-
-
-
- docker run -t -i --mount type=bind,src=/data,dst=/data busybox sh
