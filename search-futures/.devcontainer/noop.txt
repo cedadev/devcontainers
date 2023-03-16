@@ -1,0 +1,36 @@
+# Download the kibana code archive
+# RUN curl -fsSL -o kibana.tar.gz https://artifacts.elastic.co/downloads/kibana/kibana-$ELK_VERSION-linux-x86_64.tar.gz
+
+# RUN curl -fsSL -o kibana.tar.gz.sha https://artifacts.elastic.co/downloads/kibana/kibana-$ELK_VERSION-linux-x86_64.tar.gz.sha512
+
+# # RUN shasum -a 512 -c kibana.tar.gz.sha
+
+# # RUN echo "$(cat kibana.tar.gz.sha) *kibana.tar.gz" | sha512sum --check -
+
+# RUN tar -xf kibana.tar.gz
+
+# # Create a user to run kibana
+# ENV KIBANA_UID 1001
+# ENV KIBANA_USER kibana
+# ENV KIBANA_HOME /home/$KIBANA_USER
+# RUN useradd \
+#     --uid $KIBANA_UID \
+#     --user-group \
+#     --create-home \
+#     --home-dir $KIBANA_HOME \
+#     --shell /sbin/nologin \
+#     $KIBANA_USER
+
+# # Copy files and cleanup
+# RUN cp -r kibana-$ELK_VERSION-linux-x86_64/* $KIBANA_HOME/. && \
+#     rm -rf kibana*
+
+# Copy elasticsearch root CA and configuration file
+# COPY conf/* $KIBANA_HOME/config/
+
+# Change ownership of directory
+# RUN chown -R $KIBANA_USER:$KIBANA_USER $KIBANA_HOME
+
+# USER $KIBANA_UID
+
+# CMD ["./home/kibana/bin/kibana"]
